@@ -37,7 +37,7 @@ function App() {
         </span>
         <span class="cls"></span>
       </div>
-        <img src={logo} className="App-logo" alt="logo" />    
+      <img src="logo_asylum.png" className="App-logo" alt="logo" /> 
 
           
 
