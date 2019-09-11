@@ -7,7 +7,7 @@ class Users extends React.Component {
     
     constructor(props) {
         super(props);
-        // N’appelez pas `this.setState()` ici !
+    
         this.users =[]
        
       }
@@ -16,11 +16,7 @@ class Users extends React.Component {
     getUsers() {
         this.users = ["charly","maxime","trinh"];
       }
-      
     
-            
-    
-
       render() {
           this.getUsers();
           if(this.users.length > 0 ){

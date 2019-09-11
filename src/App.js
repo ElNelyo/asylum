@@ -4,6 +4,7 @@ import { BrowserRouter,  Router, Route, Link } from "react-router-dom";
 import './App.css';
 import HelloMessage from './component/Component'
 import Users from './component/Users';
+import Message from './component/Message';
 import $ from 'jquery';
 
 $(document).ready(function() {
@@ -36,23 +37,13 @@ function App() {
         </span>
         <span class="cls"></span>
       </div>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-       
-       
+        <img src={logo} className="App-logo" alt="logo" />    
+
+          
+
           <Route exact path="/" component={Home} ></Route>
           <Route exact path="/users" component={Users} ></Route>
-              
+          <Route exact path="/messages" component={Message} ></Route>
           </BrowserRouter>
       </header>
     
@@ -78,6 +69,9 @@ function Header() {
       </li>
       <li>
         <Link to="/users">Users</Link>
+      </li>
+      <li>
+        <Link to="/messages">Messages</Link>
       </li>
     </ul>
   );
