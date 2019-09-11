@@ -281,9 +281,21 @@ h1 {
     background: linear-gradient(rgb(255, 143, 178) 0%, rgb(167, 151, 255) 50%, rgb(0, 229, 255) 100%);
     mix-blend-mode: screen;
     pointer-events: none;
+    
   }
   
   .messages li.mine {    
     background: black;
   }
 }
+
+.avatar {
+  vertical-align: middle;
+  width: 100px;
+  height: 100px;
+  border-radius: 35%;
+  
+  
+
+}
+
