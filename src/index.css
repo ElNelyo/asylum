@@ -294,8 +294,10 @@ h1 {
   width: 100px;
   height: 100px;
   border-radius: 35%;
-  
-  
-
 }
 
+.send_message {
+  height: 35px;
+  width: 402px;
+  border-radius: 5px;
+}
