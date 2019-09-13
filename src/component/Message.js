@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import request from 'superagent';
 import SearchBar from './SearchBar';
 import GifList from './GifList';
+import { animateScroll } from "react-scroll";
 
 class Message extends React.Component {
    
 
  
+
 
   constructor(props) {
     super(props);
@@ -34,7 +36,13 @@ class Message extends React.Component {
   handleChange(event) {
     this.setState({message: event.target.value});
   }
-  
+
+  scrollToBottom() {
+    animateScroll.scrollToBottom({
+      containerId: "options-holder"
+    });
+}
+
   handleSubmit(event) {
    // Nouveau message
 
@@ -51,7 +59,8 @@ class Message extends React.Component {
   
    this.setState({messages: my_messages}, function () {
      console.log(this.state.messages)
-   });
+     
+   }, this.scrollToBottom);
    event.preventDefault();
   }
 
@@ -81,7 +90,7 @@ class Message extends React.Component {
   
    this.setState({messages: my_messages}, function () {
      console.log(this.state.messages)
-   });
+   }, this.scrollToBottom);
 }
 
 
@@ -120,7 +129,7 @@ render(){
 
     var messages;
     if(this.state.current_user!= "none"){
-      messages = <div class="messages-container">
+      messages = <div id="options-holder" class="messages-container">
       <ol class="messages">
             {this.state.messages.map((value, index) => {
               if(value.receiver_id==this.state.my_id && value.sender_id == this.state.current_user){
@@ -131,12 +140,12 @@ render(){
               }
               
             })}
-        
+
         </ol>
       </div>
   
     }else{
-      messages = <div>Veuillez choisir un contact</div>
+      messages = <div className="mainTitle">Veuillez choisir un contact</div>
     }
     
     let contacts;

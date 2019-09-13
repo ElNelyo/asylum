@@ -24,6 +24,8 @@ $(document).ready(function() {
 function App() {
   return (
     <div className="App">
+      
+      <div class="header"></div>
       <header className="App-header">
       <BrowserRouter>
       <div  class="open">
@@ -46,7 +48,11 @@ function App() {
           <Route exact path="/messages" component={Message} ></Route>
           
           </BrowserRouter>
+
+          <div class="footer"></div>
+          <div class="underfooter"></div>
       </header>
+
     
     </div>
 
@@ -59,7 +65,7 @@ function App() {
 
 
 function Home() {
-  return <h2>Home</h2>;
+  return <h2 className="mainTitle">Home</h2>;
 }
 
 function Header() {

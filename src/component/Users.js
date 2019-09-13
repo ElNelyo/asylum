@@ -23,7 +23,7 @@ class Users extends React.Component {
             
             return React.createElement(
                 "div",
-                null,
+                {class:"mainTitle"},
                 "Asylum get ", this.users.length, " members"
               
               );
