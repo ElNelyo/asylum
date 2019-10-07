@@ -1,65 +1,43 @@
 import React from 'react';
 import logo from './logo.svg';
-import { BrowserRouter,  Router, Route, Link } from "react-router-dom";
+import { BrowserRouter, Router, Route, Link } from "react-router-dom";
 import './App.css';
 import HelloMessage from './component/Component'
 import Users from './component/Users';
 import Message from './component/Message';
 import $ from 'jquery';
+import { Navbar, Nav, Button } from 'react-bootstrap'
 
-$(document).ready(function() {
-  $(document).delegate('.open', 'click', function(event){
-    $(this).addClass('oppenned');
-    event.stopPropagation();
-  })
-  $(document).delegate('body', 'click', function(event) {
-    $('.open').removeClass('oppenned');
-  })
-  $(document).delegate('.cls', 'click', function(event){
-    $('.open').removeClass('oppenned');
-    event.stopPropagation();
-  });
-});
+
 
 function App() {
   return (
     <div className="App">
-      
-      <div class="header"></div>
-      <header className="App-header">
       <BrowserRouter>
-      <div  class="open">
-        <span class="cls"></span>
-          <span>
-        <ul class="sub-menu ">
-              
-              <Header/>
+        <Navbar bg="primary" variant="dark">
+          <Navbar.Brand href="/">Asylum</Navbar.Brand>
+          <Nav className="mr-auto">
+            <Nav.Link href="/users">Utilisateurs</Nav.Link>
+            <Nav.Link href="/messages">Messages</Nav.Link>
+            <Nav.Link href="/">A propos</Nav.Link>
+          </Nav>
+          <Nav>
+            <img src="logo-new.png" className="App-logo" alt="logo" />
+          </Nav>
+        </Navbar>
 
-            </ul>
-        </span>
-        <span class="cls"></span>
-      </div>
-      <img src="logo_asylum.png" className="App-logo" alt="logo" /> 
+        <Route exact path="/" component={Home} ></Route>
+        <Route exact path="/users" component={Users} ></Route>
+        <Route exact path="/messages" component={Message} ></Route>
 
-          
 
-          <Route exact path="/" component={Home} ></Route>
-          <Route exact path="/users" component={Users} ></Route>
-          <Route exact path="/messages" component={Message} ></Route>
-          
-          </BrowserRouter>
 
-          <div class="footer"></div>
-          <div class="underfooter"></div>
-      </header>
-
-    
+      </BrowserRouter>
     </div>
 
-   
-    
-   
-	
+
+
+
   );
 }
 
@@ -68,20 +46,6 @@ function Home() {
   return <h2 className="mainTitle">Home</h2>;
 }
 
-function Header() {
-  return (
-    <ul>
-      <li>
-        <Link to="/">Home</Link>
-      </li>
-      <li>
-        <Link to="/users">Users</Link>
-      </li>
-      <li>
-        <Link to="/messages">Messages</Link>
-      </li>
-    </ul>
-  );
-} 
+
 
 export default App;
