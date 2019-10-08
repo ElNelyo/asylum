@@ -19,7 +19,7 @@ class Users extends React.Component {
     
     this.users.map((value, index) => {
     parent.push(
-      <Col md={4}  xs={12}>
+      <Col md={4}  xs={12} className="text-center">
             <Card>
               <Card.Img variant="top" src={value.image} />
               <Card.Body>

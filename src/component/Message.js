@@ -4,7 +4,7 @@ import request from 'superagent';
 import SearchBar from './SearchBar';
 import GifList from './GifList';
 import { animateScroll } from "react-scroll";
-import {Image, Col,Container,Row} from 'react-bootstrap'
+import { Image, Col, Container, Row, Toast } from 'react-bootstrap'
 class Message extends React.Component {
 
 
@@ -120,34 +120,84 @@ class Message extends React.Component {
 
   createAddressCard = () => {
     let parent = [];
-    
+
     this.users.map((value, index) => {
-    parent.push(
-      <Col xs={12} md={4}>
-      <Image onClick={() => this.onClickDiv(value.id)} src={value.image} rounded fluid bsPrefix="avatar"/>
-    </Col>
-    )  
+      parent.push(
+        <Col xs={12} md={4}>
+          <Image onClick={() => this.onClickDiv(value.id)} src={value.image} rounded fluid bsPrefix="avatar" />
+        </Col>
+      )
     });
 
     return parent;
   }
 
+
+
+  createMessageToast = (message, date, sender_name, owned) => {
+    let parent = []
+    if (owned == true) {
+      parent.push(
+        <Toast className='owned'>
+          <Toast.Header >
+            <strong className="mr-auto">{sender_name}</strong>
+            <small>{date}</small>
+          </Toast.Header>
+          <Toast.Body ><img src={message}></img></Toast.Body>
+        </Toast>
+      );
+    } else {
+      parent.push(
+        <Toast className='unowned'>
+          <Toast.Header >
+            <strong className="mr-auto">{sender_name}</strong>
+            <small>{date}</small>
+          </Toast.Header>
+          <Toast.Body ><img src={message}></img></Toast.Body>
+        </Toast>
+      );
+    }
+
+    return parent
+  }
   render() {
 
     var messages;
     if (this.state.current_user != "none") {
-      messages = <div id="options-holder" class="messages-container">
+      messages = <div id="options-holder" class="messages-container" >
         <ol class="messages">
-          {this.state.messages.map((value, index) => {
-            if (value.receiver_id == this.state.my_id && value.sender_id == this.state.current_user) {
-              return <img src={value.message} />
-            } else if (value.receiver_id == this.state.current_user && value.sender_id == this.state.my_id) {
+          <Container>
+            <Row >
+              {this.state.messages.map((value, index) => {
+                if (value.receiver_id == this.state.my_id && value.sender_id == this.state.current_user) {
 
-              return <img class="mine" src={value.message} />
-            }
+                  return (
 
-          })}
 
+                    <Col md={12} xs={12}>
+                      <div>{this.createMessageToast(value.message, value.datetime, value.sender_name, false)}</div>
+                    </Col>
+
+                  );
+
+
+                } else if (value.receiver_id == this.state.current_user && value.sender_id == this.state.my_id) {
+
+                  return (
+
+
+                    <Col md={12} xs={12}>
+                      <div>{this.createMessageToast(value.message, value.datetime, value.sender_name, true)}</div>
+                    </Col>
+
+
+                  );
+                }
+
+              })}
+
+            </Row>
+          </Container>
         </ol>
       </div>
 
@@ -163,8 +213,8 @@ class Message extends React.Component {
           {this.createAddressCard()}
         </Row>
       </Container>
-      
-    
+
+
 
 
     </div>
