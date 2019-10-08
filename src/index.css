@@ -9,8 +9,18 @@ div.fade.toast.owned.show {
  
   }
 
- .messages-container{
-     height: 350px;
-     overflow-y: scroll;
-    
- } 
+  .messages-container{
+    height: 350px;
+    overflow-y: scroll;
+   
+} 
+
+div.gifList{
+  height: 350px;
+  overflow-y: scroll;
+ 
+} 
+.gif-item {
+  width:230px; /* you can use % */
+  height: 230px;
+}

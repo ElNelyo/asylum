@@ -123,9 +123,11 @@ class Message extends React.Component {
 
     this.users.map((value, index) => {
       parent.push(
+       
         <Col xs={12} md={4}>
           <Image onClick={() => this.onClickDiv(value.id)} src={value.image} rounded fluid bsPrefix="avatar" />
         </Col>
+        
       )
     });
 
@@ -226,6 +228,8 @@ class Message extends React.Component {
         <div class="search">
 
           <SearchBar onTermChange={this.handleTermChange} />
+          
+
           <GifList gifs={this.state.gifs}
             onGifSelect={selectedGif => this.sendMessage(selectedGif)} />
 
