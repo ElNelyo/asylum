@@ -1,12 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
-import { BrowserRouter, Router, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import './App.css';
-import HelloMessage from './component/Component'
 import Users from './component/Users';
 import Message from './component/Message';
-import $ from 'jquery';
-import { Navbar, Nav, Button } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 
 
 

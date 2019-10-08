@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from 'react-dom';
 import request from 'superagent';
 import SearchBar from './SearchBar';
 import GifList from './GifList';
@@ -44,7 +43,7 @@ class Message extends React.Component {
     // Nouveau message
 
 
-    let new_message = new Array();
+    let new_message = [];
     new_message["sender_id"] = this.state.my_id;
     new_message["sender_name"] = "Charly";
     new_message["receiver_id"] = this.state.current_user;
@@ -61,7 +60,7 @@ class Message extends React.Component {
     event.preventDefault();
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
 
     this.getMessages();
     this.getUsers();
@@ -75,7 +74,7 @@ class Message extends React.Component {
   sendMessage(gif) {
     console.log(gif);
 
-    let new_message = new Array();
+    let new_message = [];
     new_message["sender_id"] = this.state.my_id;
     new_message["sender_name"] = "Charly";
     new_message["receiver_id"] = this.state.current_user;
@@ -92,7 +91,7 @@ class Message extends React.Component {
 
 
   getMessages() {
-    this.state.messages = JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]');
+    this.setState({ messages: JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]') });
   }
   getUsers() {
     this.users =
@@ -123,12 +122,13 @@ class Message extends React.Component {
 
     this.users.map((value, index) => {
       parent.push(
-       
-        <Col xs={12} md={4}>
-          <Image onClick={() => this.onClickDiv(value.id)} src={value.image} rounded fluid bsPrefix="avatar" />
+
+        <Col xs={12} md={4} key={index}>
+          <Image  onClick={() => this.onClickDiv(value.id)} src={value.image} roundedCircle fluid bsPrefix="avatar" />
         </Col>
-        
+
       )
+      return console.log("loaded addressCard")
     });
 
     return parent;
@@ -138,14 +138,14 @@ class Message extends React.Component {
 
   createMessageToast = (message, date, sender_name, owned) => {
     let parent = []
-    if (owned == true) {
+    if (owned === true) {
       parent.push(
         <Toast className='owned'>
           <Toast.Header >
             <strong className="mr-auto">{sender_name}</strong>
             <small>{date}</small>
           </Toast.Header>
-          <Toast.Body ><img src={message}></img></Toast.Body>
+          <Toast.Body ><img src={message} alt={message}></img></Toast.Body>
         </Toast>
       );
     } else {
@@ -155,7 +155,7 @@ class Message extends React.Component {
             <strong className="mr-auto">{sender_name}</strong>
             <small>{date}</small>
           </Toast.Header>
-          <Toast.Body ><img src={message}></img></Toast.Body>
+          <Toast.Body ><img src={message} alt={message}></img></Toast.Body>
         </Toast>
       );
     }
@@ -165,37 +165,37 @@ class Message extends React.Component {
   render() {
 
     var messages;
-    if (this.state.current_user != "none") {
-      messages = <div id="options-holder" class="messages-container" >
-        <ol class="messages">
+    if (this.state.current_user !== "none") {
+      messages = <div id="options-holder" className="messages-container" >
+        <ol className="messages">
           <Container>
             <Row >
               {this.state.messages.map((value, index) => {
-                if (value.receiver_id == this.state.my_id && value.sender_id == this.state.current_user) {
+                if (value.receiver_id === this.state.my_id && value.sender_id === this.state.current_user) {
 
                   return (
 
 
-                    <Col md={12} xs={12}>
+                    <Col md={12} xs={12} key={index}>
                       <div>{this.createMessageToast(value.message, value.datetime, value.sender_name, false)}</div>
                     </Col>
 
                   );
 
 
-                } else if (value.receiver_id == this.state.current_user && value.sender_id == this.state.my_id) {
+                } else if (value.receiver_id === this.state.current_user && value.sender_id === this.state.my_id) {
 
                   return (
 
 
-                    <Col md={12} xs={12}>
-                      <div>{this.createMessageToast(value.message, value.datetime, value.sender_name, true)}</div>
+                    <Col md={12} xs={12} key={index}>
+                      <div >{this.createMessageToast(value.message, value.datetime, value.sender_name, true)}</div>
                     </Col>
 
 
                   );
                 }
-
+                return console.log("load message")
               })}
 
             </Row>
@@ -208,7 +208,7 @@ class Message extends React.Component {
     }
 
     let contacts;
-    contacts = <div class="contact-container">
+    contacts = <div className="contact-container">
 
       <Container>
         <Row>
@@ -222,13 +222,13 @@ class Message extends React.Component {
     </div>
 
     let form_send_message;
-    if (this.state.current_user != "none") {
+    if (this.state.current_user !== "none") {
       form_send_message =
 
-        <div class="search">
+        <div className="search">
 
           <SearchBar onTermChange={this.handleTermChange} />
-          
+
 
           <GifList gifs={this.state.gifs}
             onGifSelect={selectedGif => this.sendMessage(selectedGif)} />

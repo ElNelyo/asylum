@@ -1,12 +1,12 @@
 div.fade.toast.owned.show { 
     background-color: rgb(255, 255, 255);
     position: relative;
-    left: 50%;
+    left: 65%;
     transform: translate(-50%,0)
   }
   div.fade.toast.unowned.show { 
     background-color: rgb(76, 183, 232);
- 
+    right: 0%;
   }
 
   .messages-container{

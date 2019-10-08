@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from 'react-dom';
 import { Card, Button, Row, Container , Col} from 'react-bootstrap'
 
 
@@ -11,6 +10,11 @@ class Users extends React.Component {
 
     this.users = []
 
+
+  }
+  UNSAFE_componentWillMount(){
+
+    this.getUsers();
   }
 
 
@@ -19,8 +23,8 @@ class Users extends React.Component {
     
     this.users.map((value, index) => {
     parent.push(
-      <Col md={4}  xs={12}>
-            <Card>
+      <Col md={4}  xs={12}key={index} >
+            <Card >
               <Card.Img variant="top" src={value.image} />
               <Card.Body>
                 <Card.Title>{value.name}
@@ -34,15 +38,17 @@ class Users extends React.Component {
             </Card>
             </Col>
     )  
+
+    return console.log("Image loaded")
     });
 
     return parent;
   }
-  componentWillMount = () => {
+ 
 
 
-    this.getUsers();
-  }
+
+
 
 
   getUsers() {
