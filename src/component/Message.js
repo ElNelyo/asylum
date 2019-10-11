@@ -122,9 +122,9 @@ class Message extends React.Component {
 
     this.users.map((value, index) => {
       parent.push(
-
+          
         <Col xs={12} md={4} key={index}>
-          <Image  onClick={() => this.onClickDiv(value.id)} src={value.image} roundedCircle fluid bsPrefix="avatar" />
+          <Image  onClick={() => this.onClickDiv(value.id)} src={value.image} rounded fluid bsPrefix="avatar" />
         </Col>
 
       )
@@ -212,6 +212,7 @@ class Message extends React.Component {
 
       <Container>
         <Row>
+          <div className="space"></div>
           {this.createAddressCard()}
         </Row>
       </Container>
