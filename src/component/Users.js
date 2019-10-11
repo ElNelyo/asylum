@@ -1,23 +1,48 @@
 import React from "react";
 import { Card, Button, Row, Container , Col} from 'react-bootstrap'
-
+import axios from 'axios';
 
 class Users extends React.Component {
 
-
+  state = {
+    persons: []
+  }
   constructor(props) {
     super(props);
 
     this.users = []
 
 
+
   }
+
+  componentDidMount() {
+    axios.get(`http://awesome-dev.eu:8090/users/count`)
+      .then(res => {
+        const persons =(res.data);
+        
+        this.setState({ persons });
+      })
+  }
+
   UNSAFE_componentWillMount(){
 
     this.getUsers();
+  
   }
 
 
+  createMemberCounter =() => 
+  {
+    let parent = [];
+    parent.push(
+      <Col md={12} xs = {12}>
+        <p>Asylum contient { this.state.persons.value} membre(s)</p>
+        
+      </Col>
+    )
+    return parent
+  }
   createAddressCard = () => {
     let parent = [];
     
@@ -52,6 +77,8 @@ class Users extends React.Component {
 
 
   getUsers() {
+   
+
     this.users =
       [
 
@@ -66,6 +93,9 @@ class Users extends React.Component {
           id: "01315886"
         }
       ]
+
+      
+
   }
 
 
@@ -79,6 +109,10 @@ class Users extends React.Component {
       return (
        
         <Container>
+
+          <Row>
+            {this.createMemberCounter()}
+          </Row>
         <Row>
        
           {this.createAddressCard()}
