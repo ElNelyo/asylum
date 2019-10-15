@@ -4,6 +4,8 @@ import SearchBar from './SearchBar';
 import GifList from './GifList';
 import { animateScroll } from "react-scroll";
 import { Image, Col, Container, Row, Toast } from 'react-bootstrap'
+import axios from 'axios';
+
 class Message extends React.Component {
 
 
@@ -43,6 +45,7 @@ class Message extends React.Component {
     // Nouveau message
 
 
+
     let new_message = [];
     new_message["sender_id"] = this.state.my_id;
     new_message["sender_name"] = "Charly";
@@ -74,6 +77,18 @@ class Message extends React.Component {
   sendMessage(gif) {
     console.log(gif);
 
+      
+    axios.post(`http://awesome-dev.eu:8090/conversations`, {
+      senderId:   this.state.my_id,
+      recipientId: this.state.current_user,
+      text: this.state.message})
+    .then(function (response) {
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+    
     let new_message = [];
     new_message["sender_id"] = this.state.my_id;
     new_message["sender_name"] = "Charly";

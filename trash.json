@@ -1,0 +1,122 @@
+[
+  {
+    "url": "awesome-dev.eu:8090/users/count",
+    "method": "GET",
+    "description": "Returns the number of registered users",
+    "arguments": [],
+    "response": {
+      "value": 0
+    }
+  },
+  {
+    "url": "awesome-dev.eu:8090/users",
+    "method": "GET",
+    "description": "Return an user. This method is used as a dirty login.",
+    "arguments": [
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": "name, also used as login"
+      },
+      {
+        "name": "password",
+        "type": "string",
+        "required": true,
+        "description": "password. Better not user chibard value like # or %."
+      }
+    ],
+    "response": {
+      "username": "je",
+      "password": "azerty22",
+      "photoUri": "yandale"
+    }
+  },
+  {
+    "url": "awesome-dev.eu:8090/users",
+    "method": "POST",
+    "description": "Create a new user.",
+    "arguments": [
+      {
+        "name": "username",
+        "type": "string",
+        "required": true,
+        "description": "name, also used as login"
+      },
+      {
+        "name": "password",
+        "type": "string",
+        "required": true,
+        "description": "password. Better not user chibard value like # or %."
+      },
+      {
+        "name": "photoUri",
+        "type": "string",
+        "required": false,
+        "description": "Supposed to be the uri of the user's picture."
+      }
+    ]
+  },
+  {
+    "url": "awesome-dev.eu:8090/messages",
+    "method": "POST",
+    "description": "Post a new message.",
+    "arguments": [
+      {
+        "name": "senderId",
+        "type": "int",
+        "required": true,
+        "description": "the id of the sender."
+      },
+      {
+        "name": "recipientId",
+        "type": "int",
+        "required": true,
+        "description": "The id of the recipient (amazing!)."
+      },
+      {
+        "name": "text",
+        "type": "string",
+        "required": true,
+        "description": "The message's text"
+      }
+    ],
+    "response": {
+      "senderId": 1,
+      "recipientId": 3,
+      "text": "djshdsjyh sqhg kjdg qjghsd kjghsdksj .giphy",
+      "datetime": "2019-10-14T14:21:09.962+0000"
+    }
+  },
+  {
+    "url": "awesome-dev.eu:8090/conversations",
+    "method": "GET",
+    "description": "Get all conversations for a given user id",
+    "arguments": [
+      {
+        "name": "userId",
+        "type": "int",
+        "required": true,
+        "description": "the id of the sender."
+      }
+    ],
+    "response": [
+      {
+        "messages": [
+          {
+            "senderId": 1,
+            "recipientId": 3,
+            "text": "CouCOU Copain.giphy",
+            "datetime": "2019-10-14T14:21:10.000+0000"
+          },
+          {
+            "senderId": 1,
+            "recipientId": 3,
+            "text": "yandaletttteesssssttttttt",
+            "datetime": "2019-10-14T14:23:55.000+0000"
+          }
+        ]
+      }
+    ]
+  }
+]
