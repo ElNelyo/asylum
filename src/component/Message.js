@@ -13,7 +13,7 @@ class Message extends React.Component {
     super(props);
 
     this.users = [];
-    this.state = { messages: [], current_user: "none", my_id: "20113551", message: "", gifs: [], selectedGif: null };
+    this.state = { messages: [], current_user: "none", my_id: "1", message: "", gifs: [], selectedGif: null };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,7 +65,7 @@ class Message extends React.Component {
 
   UNSAFE_componentWillMount = () => {
 
-    this.getMessages();
+    
     this.getUsers();
   }
   componentWillUnmount = () => {
@@ -75,13 +75,11 @@ class Message extends React.Component {
   }
 
   sendMessage(gif) {
-    console.log(gif);
 
-      
-    axios.post(`http://awesome-dev.eu:8090/conversations`, {
+    axios.post(`http://awesome-dev.eu:8090/messages`, {
       senderId:   this.state.my_id,
       recipientId: this.state.current_user,
-      text: this.state.message})
+      text: gif.images.downsized.url})
     .then(function (response) {
       console.log(response);
     })
@@ -106,7 +104,19 @@ class Message extends React.Component {
 
 
   getMessages() {
-    this.setState({ messages: JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]') });
+    //this.setState({ messages: JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]') });
+
+    axios.get(`http://awesome-dev.eu:8090/conversations?userId=`+this.state.current_user,{})
+      .then(res => {
+        const persons =(res.data);
+        console.log(persons);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      
+    
+  
   }
   getUsers() {
     this.users =
@@ -115,19 +125,21 @@ class Message extends React.Component {
         {
           name: "Maxime",
           image: require('../img/avatar/maxime.png'),
-          id: "12313133"
+          id: "3"
         },
         {
           name: "Trinh",
           image: require('../img/avatar/trinh.png'),
-          id: "01315886"
+          id: "2"
         }
       ]
   }
   onClickDiv = (id) => {
     console.log(id)
+ 
     return this.setState({ current_user: id }, function () {
       console.log(this.state.current_user);
+      this.getMessages();
     });
 
   }
