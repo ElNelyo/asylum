@@ -44,8 +44,6 @@ class Message extends React.Component {
   handleSubmit(event) {
     // Nouveau message
 
-
-
     let new_message = [];
     new_message["sender_id"] = this.state.my_id;
     new_message["sender_name"] = "Charly";
@@ -109,7 +107,10 @@ class Message extends React.Component {
     axios.get(`http://awesome-dev.eu:8090/conversations?userId=`+this.state.current_user,{})
       .then(res => {
         const persons =(res.data);
-        console.log(persons);
+  
+        persons.forEach(function(element) {
+          
+        });
       })
       .catch(function (error) {
         console.log(error);

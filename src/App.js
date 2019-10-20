@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import './App.css';
 import Users from './component/Users';
 import Message from './component/Message';
+import About from './component/About';
 import { Navbar, Nav } from 'react-bootstrap'
 
 
@@ -16,7 +17,7 @@ function App() {
           <Nav className="mr-auto">
             <Nav.Link href="/users">Utilisateurs</Nav.Link>
             <Nav.Link href="/messages">Messages</Nav.Link>
-            <Nav.Link href="/">A propos</Nav.Link>
+            <Nav.Link href="/about">A propos</Nav.Link>
           </Nav>
           <Nav>
             <img src="logo-new.png" className="App-logo" alt="logo" />
@@ -26,6 +27,7 @@ function App() {
         <Route exact path="/" component={Home} ></Route>
         <Route exact path="/users" component={Users} ></Route>
         <Route exact path="/messages" component={Message} ></Route>
+        <Route exact path="/about" component={About} ></Route>
 
 
 
