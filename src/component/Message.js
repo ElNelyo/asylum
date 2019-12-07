@@ -5,6 +5,7 @@ import GifList from './GifList';
 import { animateScroll } from "react-scroll";
 import { Image, Col, Container, Row, Toast } from 'react-bootstrap'
 import axios from 'axios';
+import { element } from "prop-types";
 
 class Message extends React.Component {
 
@@ -13,7 +14,7 @@ class Message extends React.Component {
     super(props);
 
     this.users = [];
-    this.state = { messages: [], current_user: "none", my_id: "1", message: "", gifs: [], selectedGif: null };
+    this.state = { isLoading:true,messages: [], current_user: "none", my_id: "1", message: "", gifs: [], selectedGif: null};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -65,9 +66,10 @@ class Message extends React.Component {
 
     
     this.getUsers();
+    this.state.isLoading= false;
   }
   componentWillUnmount = () => {
-    return this.setState({ current_user: "none" }, function () {
+    return this.setState({ current_user: "none",isLoading:false }, function () {
       console.log(this.state.current_user);
     });
   }
@@ -101,23 +103,28 @@ class Message extends React.Component {
   }
 
 
-  getMessages() {
+  getMessages(id) {
     //this.setState({ messages: JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]') });
+    console.log("EXEMPLE")    
+    console.log(JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]'));
+    
+   
+     axios.get('http://awesome-dev.eu:8090/conversations?userId='+id,{})
+    .then(response => {
+            this.setState({messages: response.data,isLoading : false})
+     })
 
-    axios.get(`http://awesome-dev.eu:8090/conversations?userId=`+this.state.current_user,{})
-      .then(res => {
-        const persons =(res.data);
-  
-        persons.forEach(function(element) {
-          
+
+     .catch(function(error){
+            console.log(error);
         });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+
       
     
-  
+
+   
+     
   }
   getUsers() {
     this.users =
@@ -136,12 +143,12 @@ class Message extends React.Component {
       ]
   }
   onClickDiv = (id) => {
-    console.log(id)
- 
-    return this.setState({ current_user: id }, function () {
+    this.setState({ current_user: id}, function () {
       console.log(this.state.current_user);
-      this.getMessages();
-    });
+      })
+
+    return  this.getMessages(id);
+    
 
   }
 
@@ -191,14 +198,22 @@ class Message extends React.Component {
     return parent
   }
   render() {
-
-    var messages;
+   
+    const { isLoading, all_messages } = this.state;
+    
     if (this.state.current_user !== "none") {
-      messages = <div id="options-holder" className="messages-container" >
+   
+      console.log("Chargement des messages")
+      console.log(this.state.messages[0]);
+      var messages = <div id="options-holder" className="messages-container" >
         <ol className="messages">
+          
           <Container>
             <Row >
+            
               {this.state.messages.map((value, index) => {
+                console.log("CONVERSATION : RECEIVER ID")
+                value.map((value, index) => {
                 if (value.receiver_id === this.state.my_id && value.sender_id === this.state.current_user) {
 
                   return (
@@ -225,6 +240,7 @@ class Message extends React.Component {
                 }
                 return console.log("load message")
               })}
+            )}
 
             </Row>
           </Container>
