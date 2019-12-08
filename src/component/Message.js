@@ -111,7 +111,9 @@ class Message extends React.Component {
    
      axios.get('http://awesome-dev.eu:8090/conversations?userId='+id,{})
     .then(response => {
-            this.setState({messages: response.data,isLoading : false})
+          console.log("RECEIVE FROM API")
+          console.log(response.data[0].messages)
+            this.setState({messages: response.data[0].messages,isLoading : false})
      })
 
 
@@ -204,35 +206,37 @@ class Message extends React.Component {
     if (this.state.current_user !== "none") {
    
       console.log("Chargement des messages")
-      console.log(this.state.messages[0]);
+      console.log(this.state.messages);
       var messages = <div id="options-holder" className="messages-container" >
         <ol className="messages">
-          
+        {!isLoading ? (
           <Container>
             <Row >
-            
+            tesy
+              
               {this.state.messages.map((value, index) => {
                 console.log("CONVERSATION : RECEIVER ID")
-                value.map((value, index) => {
-                if (value.receiver_id === this.state.my_id && value.sender_id === this.state.current_user) {
-
+                  console.log(value)
+               
+                if (value.recipientId == this.state.my_id && value.senderId == this.state.current_user) {
+                    console.log("JE PASSE 1")
                   return (
 
 
                     <Col md={12} xs={12} key={index}>
-                      <div>{this.createMessageToast(value.message, value.datetime, value.sender_name, false)}</div>
+                      <div>{this.createMessageToast(value.text, value.datetime, value.sender_name, false)}</div>
                     </Col>
 
                   );
 
 
-                } else if (value.receiver_id === this.state.current_user && value.sender_id === this.state.my_id) {
-
+                } else if (value.recipientId == this.state.current_user && value.senderId == this.state.my_id) {
+                  console.log("JE PASSE 2 ")
                   return (
-
+                    
 
                     <Col md={12} xs={12} key={index}>
-                      <div >{this.createMessageToast(value.message, value.datetime, value.sender_name, true)}</div>
+                      <div >{this.createMessageToast(value.text, value.datetime, value.sender_name, true)}</div>
                     </Col>
 
 
@@ -240,10 +244,14 @@ class Message extends React.Component {
                 }
                 return console.log("load message")
               })}
-            )}
+          
 
             </Row>
           </Container>
+          ) : (
+            <p>Loading...</p>
+          )}
+ 
         </ol>
       </div>
 
@@ -282,10 +290,11 @@ class Message extends React.Component {
         </div>
     }
 
-
+    console.log("RENVOIS FINAL ");
+    console.log(messages)
 
     return [
-
+       
       <div>
 
         {contacts}
