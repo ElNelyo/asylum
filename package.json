@@ -1,4 +1,5 @@
 {
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "name": "asylum",
   "version": "0.1.0",
   "private": true,
