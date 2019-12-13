@@ -13,5 +13,3 @@ deploy:
   project: ./build/
   on:
     branch: master
-on:
-  branch: master
