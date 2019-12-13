@@ -40,7 +40,7 @@ function App() {
 
 
 function Home() {
-  return <h2 className="mainTitle">Home Surge</h2>;
+  return <h2 className="mainTitle">Home Surge2</h2>;
 }
 
 
