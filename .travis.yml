@@ -11,5 +11,7 @@ deploy:
   provider: surge
   domain: asylumcesiweb.surge.sh
   project: ./build/
+  on:
+    branch: master
 on:
   branch: master
