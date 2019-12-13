@@ -8,6 +8,8 @@ cache:
 script:
   - npm test
   - npm run build
+  - cd build
+  - cp index.html 200.html
 deploy:
   provider: surge
   skip_cleanup: true
