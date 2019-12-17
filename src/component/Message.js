@@ -36,14 +36,10 @@ class Message extends React.Component {
     this.setState({ message: event.target.value });
   }
 
-  scrollToBottom() {
-    animateScroll.scrollToBottom({
-      containerId: "options-holder"
-    });
-  }
 
   handleSubmit(event) {
     // Nouveau message
+
 
     let new_message = [];
     new_message["sender_id"] = this.state.my_id;
@@ -56,10 +52,10 @@ class Message extends React.Component {
     my_messages.push(new_message);
 
     this.setState({ messages: my_messages }, function () {
-      console.log(this.state.messages)
+      
 
-    }, this.scrollToBottom);
-    event.preventDefault();
+    });
+    
   }
 
   UNSAFE_componentWillMount = () => {
@@ -70,37 +66,49 @@ class Message extends React.Component {
   }
   componentWillUnmount = () => {
     return this.setState({ current_user: "none",isLoading:false }, function () {
-      console.log(this.state.current_user);
+      
     });
   }
 
   sendMessage(gif) {
 
+
+
+    var my_current_id = this.state.my_id
+    var my_current_user = this.state.current_user
+    var all_my_current_messages = this.state.messages
+
     axios.post(`http://awesome-dev.eu:8090/messages`, {
       senderId:   this.state.my_id,
       recipientId: this.state.current_user,
       text: gif.images.downsized.url})
-    .then(function (response) {
-      console.log(response);
+    .then(response => {
+        console.log("trigger");
+        let new_message = [];
+        new_message["senderId"] = my_current_id;
+        new_message["senderUsername"] = "Charly";
+        new_message["recipientId"] = my_current_user;
+        new_message["text"] = gif.images.downsized.url;
+        new_message["datetime"] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        new_message["read"] = false;
+        var my_messages = all_my_current_messages
+        my_messages.push(new_message);
+       
+  
+      this.setState({ messages: my_messages ,isLoading : false})
+      
+
     })
     .catch(function (error) {
       console.log(error);
     });
-    
-    let new_message = [];
-    new_message["sender_id"] = this.state.my_id;
-    new_message["sender_name"] = "Charly";
-    new_message["receiver_id"] = this.state.current_user;
-    new_message["message"] = gif.images.downsized.url;
-    new_message["datetime"] = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    new_message["read"] = false;
-    var my_messages = this.state.messages
-    my_messages.push(new_message);
 
-    this.setState({ messages: my_messages }, function () {
-      console.log(this.state.messages)
-    }, this.scrollToBottom);
+    
+    
+
+  
   }
+  
 
 
   getMessages(id) {
@@ -212,8 +220,7 @@ class Message extends React.Component {
         {!isLoading ? (
           <Container>
             <Row >
-            tesy
-              
+                      
               {this.state.messages.map((value, index) => {
                 console.log("CONVERSATION : RECEIVER ID")
                   console.log(value)
