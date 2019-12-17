@@ -7,11 +7,6 @@ import About from './component/About';
 import { Navbar, Nav } from 'react-bootstrap'
 import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed'
 
-if (process.env.NODE_ENV !== 'production') {
-  const {whyDidYouUpdate} = require('why-did-you-update');
-  whyDidYouUpdate(React);
-}
-
 function App() {
   return (
     <div className="App">
