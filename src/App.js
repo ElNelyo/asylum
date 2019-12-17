@@ -5,8 +5,12 @@ import Users from './component/Users';
 import Message from './component/Message';
 import About from './component/About';
 import { Navbar, Nav } from 'react-bootstrap'
+import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed'
 
-
+if (process.env.NODE_ENV !== 'production') {
+  const {whyDidYouUpdate} = require('why-did-you-update');
+  whyDidYouUpdate(React);
+}
 
 function App() {
   return (
@@ -42,7 +46,12 @@ function App() {
 
 
 function Home() {
-  return <h2 className="mainTitle">Home Surge2</h2>;
+  return <div style={{ width: "100%", height: 'auto' }}>
+  <ResponsiveEmbed aspectRatio="16by9">
+    <embed type="image/svg+xml" src="http://195.154.150.105/asylum/" />
+  </ResponsiveEmbed>
+</div>
+  ;
 }
 
 

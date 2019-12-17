@@ -1,5 +1,6 @@
 import React from "react";
-import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed'
+import { Col, Container, Row } from 'react-bootstrap'
+
 class About extends React.Component {
 
 
@@ -7,23 +8,31 @@ class About extends React.Component {
 
 
   render() {
-    var myElement = <div style={{ width: "100%", height: 'auto' }}>
-    <ResponsiveEmbed aspectRatio="16by9">
-      <embed type="image/svg+xml" src="http://195.154.150.105/asylum/" />
-    </ResponsiveEmbed>
-  </div>
-    
-    
-//    <iframe src="http://195.154.150.105/asylum/" style={{ width: 100%, height: 'auto' }}></iframe>;
+    var TravisCI = 
+    <Container>
+            <Row >
+            <div>
+                <Col md={12} xs={12}>
+                  <h1>Intégration Continue</h1>
+                  <img src="https://docs.travis-ci.com/images/TravisCI-Full-Color.png" alt="Travis"></img>
+                </Col> 
+                
+                <Col md={12} xs={12}>
+                  <img style={{ width: "330px", height: 'auto' }} src="https://travis-ci.org/ElNelyo/asylum.svg?branch=master" alt="travis-statut"></img>
+                </Col>
+
+                <Col md={12} xs={12}>
+                  <h1>Déploiement continu</h1>
+                  <img style={{ width: "330px", height: 'auto' }} src="https://miro.medium.com/max/1200/1*qqOrP7lca1XW70IzPg9Mmw.png" alt='surge'></img>
+                </Col>
+            </div>
+            </Row>
+      </Container>
+
        return [
-       
         <div>
-
-        
-        
-        {myElement}
-
-      </div>
+          {TravisCI}
+        </div>
 
 
 
