@@ -2,10 +2,8 @@ import React from "react";
 import request from 'superagent';
 import SearchBar from './SearchBar';
 import GifList from './GifList';
-import { animateScroll } from "react-scroll";
 import { Image, Col, Container, Row, Toast } from 'react-bootstrap'
 import axios from 'axios';
-import { element } from "prop-types";
 
 class Message extends React.Component {
 
@@ -62,7 +60,7 @@ class Message extends React.Component {
 
     
     this.getUsers();
-    this.state.isLoading= false;
+    this.setState({ isLoading:false});
   }
   componentWillUnmount = () => {
     return this.setState({ current_user: "none",isLoading:false }, function () {
@@ -209,7 +207,7 @@ class Message extends React.Component {
   }
   render() {
    
-    const { isLoading, all_messages } = this.state;
+    const { isLoading } = this.state;
     
     if (this.state.current_user !== "none") {
    
@@ -225,7 +223,7 @@ class Message extends React.Component {
                 console.log("CONVERSATION : RECEIVER ID")
                   console.log(value)
                
-                if (value.recipientId == this.state.my_id && value.senderId == this.state.current_user) {
+                if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) {
                     console.log("JE PASSE 1")
                   return (
 
@@ -237,7 +235,7 @@ class Message extends React.Component {
                   );
 
 
-                } else if (value.recipientId == this.state.current_user && value.senderId == this.state.my_id) {
+                } else if (parseInt(value.recipientId) === parseInt(this.state.current_user) && parseInt(value.senderId) === parseInt(this.state.my_id)) {
                   console.log("JE PASSE 2 ")
                   return (
                     
