@@ -2,7 +2,6 @@ import React from "react";
 import request from 'superagent';
 import SearchBar from './SearchBar';
 import GifList from './GifList';
-import { animateScroll } from "react-scroll";
 import { Image, Col, Container, Row, Toast } from 'react-bootstrap'
 import axios from 'axios';
 
@@ -13,7 +12,7 @@ class Message extends React.Component {
     super(props);
 
     this.users = [];
-    this.state = { messages: [], current_user: "none", my_id: "20113551", message: "", gifs: [], selectedGif: null };
+    this.state = { isLoading:true,messages: [], current_user: "none", my_id: "1", message: "", gifs: [], selectedGif: null};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,15 +34,9 @@ class Message extends React.Component {
     this.setState({ message: event.target.value });
   }
 
-  scrollToBottom() {
-    animateScroll.scrollToBottom({
-      containerId: "options-holder"
-    });
-  }
 
   handleSubmit(event) {
     // Nouveau message
-
 
 
     let new_message = [];
@@ -57,56 +50,89 @@ class Message extends React.Component {
     my_messages.push(new_message);
 
     this.setState({ messages: my_messages }, function () {
-      console.log(this.state.messages)
+      
 
-    }, this.scrollToBottom);
-    event.preventDefault();
+    });
+    
   }
 
   UNSAFE_componentWillMount = () => {
 
-    this.getMessages();
+    
     this.getUsers();
+    this.setState({ isLoading:false});
   }
   componentWillUnmount = () => {
-    return this.setState({ current_user: "none" }, function () {
-      console.log(this.state.current_user);
+    return this.setState({ current_user: "none",isLoading:false }, function () {
+      
     });
   }
 
   sendMessage(gif) {
-    console.log(gif);
 
-      
-    axios.post(`http://awesome-dev.eu:8090/conversations`, {
+
+
+    var my_current_id = this.state.my_id
+    var my_current_user = this.state.current_user
+    var all_my_current_messages = this.state.messages
+
+    axios.post(`http://awesome-dev.eu:8090/messages`, {
       senderId:   this.state.my_id,
       recipientId: this.state.current_user,
-      text: this.state.message})
-    .then(function (response) {
-      console.log(response);
+      text: gif.images.downsized.url})
+    .then(response => {
+        console.log("trigger");
+        let new_message = [];
+        new_message["senderId"] = my_current_id;
+        new_message["senderUsername"] = "Charly";
+        new_message["recipientId"] = my_current_user;
+        new_message["text"] = gif.images.downsized.url;
+        new_message["datetime"] = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        new_message["read"] = false;
+        var my_messages = all_my_current_messages
+        my_messages.push(new_message);
+       
+  
+      this.setState({ messages: my_messages ,isLoading : false})
+      
+
     })
     .catch(function (error) {
       console.log(error);
     });
+
     
-    let new_message = [];
-    new_message["sender_id"] = this.state.my_id;
-    new_message["sender_name"] = "Charly";
-    new_message["receiver_id"] = this.state.current_user;
-    new_message["message"] = gif.images.downsized.url;
-    new_message["datetime"] = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    new_message["read"] = false;
-    var my_messages = this.state.messages
-    my_messages.push(new_message);
+    
 
-    this.setState({ messages: my_messages }, function () {
-      console.log(this.state.messages)
-    }, this.scrollToBottom);
+  
   }
+  
 
 
-  getMessages() {
-    this.setState({ messages: JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]') });
+  getMessages(id) {
+    //this.setState({ messages: JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]') });
+    console.log("EXEMPLE")    
+    console.log(JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]'));
+    
+   
+     axios.get('http://awesome-dev.eu:8090/conversations?userId='+id,{})
+    .then(response => {
+          console.log("RECEIVE FROM API")
+          console.log(response.data[0].messages)
+            this.setState({messages: response.data[0].messages,isLoading : false})
+     })
+
+
+     .catch(function(error){
+            console.log(error);
+        });
+
+
+      
+    
+
+   
+     
   }
   getUsers() {
     this.users =
@@ -115,20 +141,22 @@ class Message extends React.Component {
         {
           name: "Maxime",
           image: require('../img/avatar/maxime.png'),
-          id: "12313133"
+          id: "3"
         },
         {
           name: "Trinh",
           image: require('../img/avatar/trinh.png'),
-          id: "01315886"
+          id: "2"
         }
       ]
   }
   onClickDiv = (id) => {
-    console.log(id)
-    return this.setState({ current_user: id }, function () {
+    this.setState({ current_user: id}, function () {
       console.log(this.state.current_user);
-    });
+      })
+
+    return  this.getMessages(id);
+    
 
   }
 
@@ -178,33 +206,42 @@ class Message extends React.Component {
     return parent
   }
   render() {
-
-    var messages;
+   
+    const { isLoading } = this.state;
+    
     if (this.state.current_user !== "none") {
-      messages = <div id="options-holder" className="messages-container" >
+   
+      console.log("Chargement des messages")
+      console.log(this.state.messages);
+      var messages = <div id="options-holder" className="messages-container" >
         <ol className="messages">
+        {!isLoading ? (
           <Container>
             <Row >
+                      
               {this.state.messages.map((value, index) => {
-                if (value.receiver_id === this.state.my_id && value.sender_id === this.state.current_user) {
-
+                console.log("CONVERSATION : RECEIVER ID")
+                  console.log(value)
+               
+                if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) {
+                    console.log("JE PASSE 1")
                   return (
 
 
                     <Col md={12} xs={12} key={index}>
-                      <div>{this.createMessageToast(value.message, value.datetime, value.sender_name, false)}</div>
+                      <div>{this.createMessageToast(value.text, value.datetime, value.sender_name, false)}</div>
                     </Col>
 
                   );
 
 
-                } else if (value.receiver_id === this.state.current_user && value.sender_id === this.state.my_id) {
-
+                } else if (parseInt(value.recipientId) === parseInt(this.state.current_user) && parseInt(value.senderId) === parseInt(this.state.my_id)) {
+                  console.log("JE PASSE 2 ")
                   return (
-
+                    
 
                     <Col md={12} xs={12} key={index}>
-                      <div >{this.createMessageToast(value.message, value.datetime, value.sender_name, true)}</div>
+                      <div >{this.createMessageToast(value.text, value.datetime, value.sender_name, true)}</div>
                     </Col>
 
 
@@ -212,9 +249,14 @@ class Message extends React.Component {
                 }
                 return console.log("load message")
               })}
+          
 
             </Row>
           </Container>
+          ) : (
+            <p>Loading...</p>
+          )}
+ 
         </ol>
       </div>
 
@@ -253,10 +295,11 @@ class Message extends React.Component {
         </div>
     }
 
-
+    console.log("RENVOIS FINAL ");
+    console.log(messages)
 
     return [
-
+       
       <div>
 
         {contacts}
