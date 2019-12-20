@@ -177,7 +177,7 @@ class Message extends React.Component {
         <div className="conversation-list-item">
         <img className="conversation-photo" src={value.image} alt="conversation" />
         <div className="conversation-info">
-          <h1 className="conversation-title">{ value.id }</h1>
+          <h1 className="conversation-title">{ value.name }</h1>
           <p className="conversation-snippet">Last message 12</p>
         </div>
       </div>
