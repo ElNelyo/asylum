@@ -10,6 +10,8 @@ import '../assets/ConversationListItem.css';
 import '../assets/ConversationList.css';
 import '../assets/ConversationSearch.css';
 import '../assets/Messenger.css';
+import '../assets/MessageList.css'; 
+import '../assets/Message.css'; 
 
 class Message extends React.Component {
 
