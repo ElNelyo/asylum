@@ -5,6 +5,12 @@ import GifList from './GifList';
 import { Image, Col, Container, Row, Toast } from 'react-bootstrap'
 import axios from 'axios';
 
+
+import '../assets/ConversationListItem.css';
+import '../assets/ConversationList.css';
+import '../assets/ConversationSearch.css';
+import '../assets/Messenger.css';
+
 class Message extends React.Component {
 
 
@@ -166,9 +172,15 @@ class Message extends React.Component {
     this.users.map((value, index) => {
       parent.push(
           
-        <Col xs={12} md={4} key={index}>
-          <Image  onClick={() => this.onClickDiv(value.id)} src={value.image} rounded fluid bsPrefix="avatar" />
-        </Col>
+        <div className="conversation-list-item">
+        <img className="conversation-photo" src={value.image} alt="conversation" />
+        <div className="conversation-info">
+          <h1 className="conversation-title">{ value.id }</h1>
+          <p className="conversation-snippet">Last message 12</p>
+        </div>
+      </div>
+      
+       
 
       )
       return console.log("loaded addressCard")
@@ -211,8 +223,7 @@ class Message extends React.Component {
     
     if (this.state.current_user !== "none") {
    
-      console.log("Chargement des messages")
-      console.log(this.state.messages);
+    
       var messages = <div id="options-holder" className="messages-container" >
         <ol className="messages">
         {!isLoading ? (
@@ -267,12 +278,37 @@ class Message extends React.Component {
     let contacts;
     contacts = <div className="contact-container">
 
-      <Container>
-        <Row>
-          <div className="space"></div>
-          {this.createAddressCard()}
-        </Row>
-      </Container>
+<div className="messenger">
+        {/* <Toolbar
+          title="Messenger"
+          leftItems={[
+            <ToolbarButton key="cog" icon="ion-ios-cog" />
+          ]}
+          rightItems={[
+            <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />
+          ]}
+        /> */}
+
+        {/* <Toolbar
+          title="Conversation Title"
+          rightItems={[
+            <ToolbarButton key="info" icon="ion-ios-information-circle-outline" />,
+            <ToolbarButton key="video" icon="ion-ios-videocam" />,
+            <ToolbarButton key="phone" icon="ion-ios-call" />
+          ]}
+        /> */}
+
+       
+       
+          <div className="scrollable sidebar">
+            <div className="conversation-list">
+              {this.createAddressCard()}  
+            </div>
+          </div>
+                
+          </div>
+
+      
 
 
 
