@@ -223,10 +223,40 @@ class Message extends React.Component {
    
     const { isLoading } = this.state;
     
-  
-   
+    if (this.state.current_user !== "none") { 
     
-      var messages = 
+     
+      var messages = <div class="message-list-container"> 
+
+     
+
+    
+
+    
+      
+              {this.state.messages.map((value, index) => { 
+                 if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) { 
+               
+                  }else{
+                    return (
+                      <div class="message mine start end">
+                       <div className="bubble-container">
+                         <div className="bubble" title="Saturday, December 21, 2019 4:36 PM">
+                           <img src={value.text}></img>
+                         </div>
+                       </div>
+                        </div>
+                    
+                       )
+                  }
+                 
+              })}
+             
+    </div>
+
+            }
+
+      var messages2 = 
       <div class="message-list-container">
             <div class="message mine start end">
               <div class="timestamp">Saturday, December 21, 2019 4:36 PM</div>
