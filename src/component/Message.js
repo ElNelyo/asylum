@@ -125,9 +125,15 @@ class Message extends React.Component {
    
      axios.get('http://awesome-dev.eu:8090/conversations?userId='+id,{})
     .then(response => {
-          console.log("RECEIVE FROM API")
-          console.log(response.data[0].messages)
-            this.setState({messages: response.data[0].messages,isLoading : false})
+            if(response.data != undefined && response.data[0] != undefined)
+            {
+                var data_messages_api = response.data[0].messages
+                this.setState({messages: data_messages_api,isLoading : false})
+            }else{
+              var data_messages_api = []
+              this.setState({messages: data_messages_api,isLoading : false})
+            }
+            
      })
 
 
@@ -154,7 +160,7 @@ class Message extends React.Component {
         {
           name: "Trinh",
           image: require('../img/avatar/trinh.png'),
-          id: "2"
+          id: "4"
         }
       ]
   }
