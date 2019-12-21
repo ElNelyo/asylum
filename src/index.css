@@ -17,6 +17,7 @@ div.fade.toast.owned.show {
 
 div.gifList{
   height: 350px;
+  width: 900px;
   overflow-y: scroll;
  
 } 
