@@ -174,7 +174,7 @@ class Message extends React.Component {
     this.users.map((value, index) => {
       parent.push(
           
-        <div className="conversation-list-item">
+        <div className="conversation-list-item" onClick={() => this.onClickDiv(value.id)} src={value.image}>
         <img className="conversation-photo" src={value.image} alt="conversation" />
         <div className="conversation-info">
           <h1 className="conversation-title">{ value.name }</h1>
@@ -223,126 +223,54 @@ class Message extends React.Component {
    
     const { isLoading } = this.state;
     
-    if (this.state.current_user !== "none") {
+  
    
     
-      var messages = <div id="options-holder" className="messages-container" >
-        <ol className="messages">
-        {!isLoading ? (
-          <Container>
-            <Row >
-                      
-              {this.state.messages.map((value, index) => {
-                console.log("CONVERSATION : RECEIVER ID")
-                  console.log(value)
-               
-                if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) {
-                    console.log("JE PASSE 1")
-                  return (
-
-
-                    <Col md={12} xs={12} key={index}>
-                      <div>{this.createMessageToast(value.text, value.datetime, value.sender_name, false)}</div>
-                    </Col>
-
-                  );
-
-
-                } else if (parseInt(value.recipientId) === parseInt(this.state.current_user) && parseInt(value.senderId) === parseInt(this.state.my_id)) {
-                  console.log("JE PASSE 2 ")
-                  return (
-                    
-
-                    <Col md={12} xs={12} key={index}>
-                      <div >{this.createMessageToast(value.text, value.datetime, value.sender_name, true)}</div>
-                    </Col>
-
-
-                  );
-                }
-                return console.log("load message")
-              })}
-          
-
-            </Row>
-          </Container>
-          ) : (
-            <p>Loading...</p>
-          )}
- 
-        </ol>
+      var messages = 
+      <div class="message-list-container">
+            <div class="message mine start end">
+              <div class="timestamp">Saturday, December 21, 2019 4:36 PM</div>
+                <div class="bubble-container">
+                  <div class="bubble" title="Saturday, December 21, 2019 4:36 PM">
+                    Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.</div>
+                    </div>
+                  </div>
+                  <div class="message  start ">
+                    <div class="bubble-container">
+                      <div class="bubble" title="Saturday, December 21, 2019 4:36 PM">It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!</div>
+                      </div>
+                      </div>
       </div>
 
-    } else {
-      messages = <div className="mainTitle">Veuillez choisir un contact</div>
-    }
 
     let contacts;
     contacts = <div className="contact-container">
-
-<div className="messenger">
-        {/* <Toolbar
-          title="Messenger"
-          leftItems={[
-            <ToolbarButton key="cog" icon="ion-ios-cog" />
-          ]}
-          rightItems={[
-            <ToolbarButton key="add" icon="ion-ios-add-circle-outline" />
-          ]}
-        /> */}
-
-        {/* <Toolbar
-          title="Conversation Title"
-          rightItems={[
-            <ToolbarButton key="info" icon="ion-ios-information-circle-outline" />,
-            <ToolbarButton key="video" icon="ion-ios-videocam" />,
-            <ToolbarButton key="phone" icon="ion-ios-call" />
-          ]}
-        /> */}
-
-       
-       
-          <div className="scrollable sidebar">
             <div className="conversation-list">
               {this.createAddressCard()}  
             </div>
-          </div>
+          
                 
           </div>
 
-      
+  
 
-
-
-
-    </div>
-
-    let form_send_message;
-    if (this.state.current_user !== "none") {
-      form_send_message =
-
-        <div className="search">
-
-          <SearchBar onTermChange={this.handleTermChange} />
-
-
-          <GifList gifs={this.state.gifs}
-            onGifSelect={selectedGif => this.sendMessage(selectedGif)} />
-
-
-        </div>
-    }
-
-    console.log("RENVOIS FINAL ");
-    console.log(messages)
+    
 
     return [
        
       <div>
-
-        {contacts}
-        {messages}
-        {form_send_message}
+        <div className="messenger">
+          <div className="scrollable sidebar">
+            {contacts}
+            </div>
+        <div className="scrollable content">
+          <div className="message-list">
+            {messages}
+          </div>
+        </div>
+        
+        </div>
+      
 
       </div>
 
