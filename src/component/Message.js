@@ -12,7 +12,7 @@ import '../assets/ConversationSearch.css';
 import '../assets/Messenger.css';
 import '../assets/MessageList.css'; 
 import '../assets/Message.css'; 
-
+import '../assets/Compose.css';
 class Message extends React.Component {
 
 
@@ -226,7 +226,7 @@ class Message extends React.Component {
     if (this.state.current_user !== "none") { 
     
      
-      var messages = <div class="message-list-container"> 
+      var messages = <div>
 
      
 
@@ -252,8 +252,8 @@ class Message extends React.Component {
                  
               })}
              
-    </div>
-
+ 
+             </div>
             }
 
       var messages2 = 
@@ -283,7 +283,20 @@ class Message extends React.Component {
           </div>
 
   
-
+      let search;
+      search = 
+      
+ 
+        <div className="search"> 
+ 
+          <SearchBar onTermChange={this.handleTermChange} /> 
+ 
+ 
+          <GifList gifs={this.state.gifs} 
+            onGifSelect={selectedGif => this.sendMessage(selectedGif)} /> 
+ 
+ 
+        </div> 
     
 
     return [
@@ -295,9 +308,16 @@ class Message extends React.Component {
             </div>
         <div className="scrollable content">
           <div className="message-list">
+          <div class="message-list-container"> 
             {messages}
+
+            <div className="compose">
+              {search}
+            </div>
+            </div>
           </div>
         </div>
+        
         
         </div>
       
