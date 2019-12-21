@@ -6,8 +6,8 @@ cache:
   directories:
     - node_modules
 script:
-  - npm install peers
-  - rm -f package-lock.json && npm install
+  - rm package-lock.json 
+  - npm install 
   - npm test
   - npm run build
   - cd build

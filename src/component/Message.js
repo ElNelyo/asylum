@@ -2,7 +2,7 @@ import React from "react";
 import request from 'superagent';
 import SearchBar from './SearchBar';
 import GifList from './GifList';
-import { Image, Col, Container, Row, Toast } from 'react-bootstrap'
+import { Col, Container, Row, Toast } from 'react-bootstrap'
 import axios from 'axios';
 
 
