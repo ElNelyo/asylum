@@ -2,7 +2,7 @@ import React from "react";
 import request from 'superagent';
 import SearchBar from './SearchBar';
 import GifList from './GifList';
-import { Col, Container, Row, Toast } from 'react-bootstrap'
+import { Toast } from 'react-bootstrap'
 import axios from 'axios';
 
 
@@ -125,12 +125,13 @@ class Message extends React.Component {
    
      axios.get('http://awesome-dev.eu:8090/conversations?userId='+id,{})
     .then(response => {
-            if(response.data != undefined && response.data[0] != undefined)
+            var data_messages_api = []
+            if(response.data !== undefined && response.data[0] !== undefined)
             {
-                var data_messages_api = response.data[0].messages
+                data_messages_api = response.data[0].messages
                 this.setState({messages: data_messages_api,isLoading : false})
             }else{
-              var data_messages_api = []
+           
               this.setState({messages: data_messages_api,isLoading : false})
             }
             
@@ -228,27 +229,24 @@ class Message extends React.Component {
   render() {
    
     const { isLoading } = this.state;
-    
+    if(isLoading){
+
+    }else{
+
+    }
     if (this.state.current_user !== "none") { 
     
      
       var messages = <div>
-
-     
-
-    
-
-    
-      
               {this.state.messages.map((value, index) => { 
                  if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) { 
-               
+                      return (console.log("wait"))
                   }else{
                     return (
                       <div class="message mine start end">
                        <div className="bubble-container">
                          <div className="bubble" title="Saturday, December 21, 2019 4:36 PM">
-                           <img src={value.text}></img>
+                           <img src={value.text} alt="my_message" ></img>
                          </div>
                        </div>
                         </div>
@@ -262,21 +260,7 @@ class Message extends React.Component {
              </div>
             }
 
-      var messages2 = 
-      <div class="message-list-container">
-            <div class="message mine start end">
-              <div class="timestamp">Saturday, December 21, 2019 4:36 PM</div>
-                <div class="bubble-container">
-                  <div class="bubble" title="Saturday, December 21, 2019 4:36 PM">
-                    Hello world! This is a long message that will hopefully get wrapped by our message bubble component! We will see how well it works.</div>
-                    </div>
-                  </div>
-                  <div class="message  start ">
-                    <div class="bubble-container">
-                      <div class="bubble" title="Saturday, December 21, 2019 4:36 PM">It looks like it wraps exactly as it is supposed to. Lets see what a reply looks like!</div>
-                      </div>
-                      </div>
-      </div>
+
 
 
     let contacts;
