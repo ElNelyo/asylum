@@ -2,9 +2,17 @@ import React from "react";
 import request from 'superagent';
 import SearchBar from './SearchBar';
 import GifList from './GifList';
-import { Image, Col, Container, Row, Toast } from 'react-bootstrap'
+import { Toast } from 'react-bootstrap'
 import axios from 'axios';
 
+
+import '../assets/ConversationListItem.css';
+import '../assets/ConversationList.css';
+import '../assets/ConversationSearch.css';
+import '../assets/Messenger.css';
+import '../assets/MessageList.css'; 
+import '../assets/Message.css'; 
+import '../assets/Compose.css';
 class Message extends React.Component {
 
 
@@ -117,9 +125,16 @@ class Message extends React.Component {
    
      axios.get('http://awesome-dev.eu:8090/conversations?userId='+id,{})
     .then(response => {
-          console.log("RECEIVE FROM API")
-          console.log(response.data[0].messages)
-            this.setState({messages: response.data[0].messages,isLoading : false})
+            var data_messages_api = []
+            if(response.data !== undefined && response.data[0] !== undefined)
+            {
+                data_messages_api = response.data[0].messages
+                this.setState({messages: data_messages_api,isLoading : false})
+            }else{
+           
+              this.setState({messages: data_messages_api,isLoading : false})
+            }
+            
      })
 
 
@@ -146,7 +161,7 @@ class Message extends React.Component {
         {
           name: "Trinh",
           image: require('../img/avatar/trinh.png'),
-          id: "2"
+          id: "4"
         }
       ]
   }
@@ -166,9 +181,15 @@ class Message extends React.Component {
     this.users.map((value, index) => {
       parent.push(
           
-        <Col xs={12} md={4} key={index}>
-          <Image  onClick={() => this.onClickDiv(value.id)} src={value.image} rounded fluid bsPrefix="avatar" />
-        </Col>
+        <div className="conversation-list-item" onClick={() => this.onClickDiv(value.id)} src={value.image}>
+        <img className="conversation-photo" src={value.image} alt="conversation" />
+        <div className="conversation-info">
+          <h1 className="conversation-title">{ value.name }</h1>
+          <p className="conversation-snippet">Last message 12</p>
+        </div>
+      </div>
+      
+       
 
       )
       return console.log("loaded addressCard")
@@ -208,103 +229,88 @@ class Message extends React.Component {
   render() {
    
     const { isLoading } = this.state;
-    
-    if (this.state.current_user !== "none") {
-   
-      console.log("Chargement des messages")
-      console.log(this.state.messages);
-      var messages = <div id="options-holder" className="messages-container" >
-        <ol className="messages">
-        {!isLoading ? (
-          <Container>
-            <Row >
-                      
-              {this.state.messages.map((value, index) => {
-                console.log("CONVERSATION : RECEIVER ID")
-                  console.log(value)
-               
-                if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) {
-                    console.log("JE PASSE 1")
-                  return (
+    if(isLoading){
 
+    }else{
 
-                    <Col md={12} xs={12} key={index}>
-                      <div>{this.createMessageToast(value.text, value.datetime, value.sender_name, false)}</div>
-                    </Col>
-
-                  );
-
-
-                } else if (parseInt(value.recipientId) === parseInt(this.state.current_user) && parseInt(value.senderId) === parseInt(this.state.my_id)) {
-                  console.log("JE PASSE 2 ")
-                  return (
-                    
-
-                    <Col md={12} xs={12} key={index}>
-                      <div >{this.createMessageToast(value.text, value.datetime, value.sender_name, true)}</div>
-                    </Col>
-
-
-                  );
-                }
-                return console.log("load message")
-              })}
-          
-
-            </Row>
-          </Container>
-          ) : (
-            <p>Loading...</p>
-          )}
- 
-        </ol>
-      </div>
-
-    } else {
-      messages = <div className="mainTitle">Veuillez choisir un contact</div>
     }
+    if (this.state.current_user !== "none") { 
+    
+     
+      var messages = <div>
+              {this.state.messages.map((value, index) => { 
+                 if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) { 
+                      return (console.log("wait"))
+                  }else{
+                    return (
+                      <div class="message mine start end">
+                       <div className="bubble-container">
+                         <div className="bubble" title="Saturday, December 21, 2019 4:36 PM">
+                           <img src={value.text} alt="my_message" ></img>
+                         </div>
+                       </div>
+                        </div>
+                    
+                       )
+                  }
+                 
+              })}
+             
+ 
+             </div>
+            }
+
+
+
 
     let contacts;
     contacts = <div className="contact-container">
+            <div className="conversation-list">
+              {this.createAddressCard()}  
+            </div>
+          
+                
+          </div>
 
-      <Container>
-        <Row>
-          <div className="space"></div>
-          {this.createAddressCard()}
-        </Row>
-      </Container>
-
-
-
-
-    </div>
-
-    let form_send_message;
-    if (this.state.current_user !== "none") {
-      form_send_message =
-
-        <div className="search">
-
-          <SearchBar onTermChange={this.handleTermChange} />
-
-
-          <GifList gifs={this.state.gifs}
-            onGifSelect={selectedGif => this.sendMessage(selectedGif)} />
-
-
-        </div>
-    }
-
-    console.log("RENVOIS FINAL ");
-    console.log(messages)
+  
+      let search;
+      search = 
+      
+ 
+        <div className="search"> 
+ 
+          <SearchBar onTermChange={this.handleTermChange} /> 
+ 
+ 
+          <GifList gifs={this.state.gifs} 
+            onGifSelect={selectedGif => this.sendMessage(selectedGif)} /> 
+ 
+ 
+        </div> 
+    
 
     return [
        
       <div>
+        <div className="messenger">
+          <div className="scrollable sidebar">
+            {contacts}
+            </div>
+        <div className="scrollable content">
+          <div className="message-list">
+          <div class="message-list-container"> 
+            {messages}
 
-        {contacts}
-        {messages}
-        {form_send_message}
+            <div className="compose">
+              {search}
+            </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        </div>
+      
 
       </div>
 
