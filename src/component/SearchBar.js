@@ -17,7 +17,7 @@ class SearchBar extends React.Component {
             <input onChange={event => this.onInputChange(event.target.value)}
               type="text"
               className="compose-input"
-              placeholder="Type a message, @name"
+              placeholder="Entrez votre gif"
             />
     
     
