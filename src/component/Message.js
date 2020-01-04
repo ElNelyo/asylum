@@ -156,12 +156,12 @@ class Message extends React.Component {
         {
           name: "Maxime",
           image: require('../img/avatar/maxime.png'),
-          id: "3"
+          id: "1"
         },
         {
           name: "Trinh",
           image: require('../img/avatar/trinh.png'),
-          id: "4"
+          id: "2"
         }
       ]
   }
@@ -179,19 +179,22 @@ class Message extends React.Component {
     let parent = [];
 
     this.users.map((value, index) => {
-      parent.push(
+      if(value.id !== this.state.my_id){
+        parent.push(
           
-        <div className="conversation-list-item" onClick={() => this.onClickDiv(value.id)} src={value.image}>
-        <img className="conversation-photo" src={value.image} alt="conversation" />
-        <div className="conversation-info">
-          <h1 className="conversation-title">{ value.name }</h1>
-          <p className="conversation-snippet">Last message 12</p>
+          <div className="conversation-list-item" onClick={() => this.onClickDiv(value.id)} src={value.image}>
+          <img className="conversation-photo" src={value.image} alt="conversation" />
+          <div className="conversation-info">
+            <h1 className="conversation-title">{ value.name }</h1>
+            <p className="conversation-snippet">Last message 12</p>
+          </div>
         </div>
-      </div>
+        
+         
+  
+        )  
+      }
       
-       
-
-      )
       return console.log("loaded addressCard")
     });
 
@@ -239,8 +242,20 @@ class Message extends React.Component {
      
       var messages = <div>
               {this.state.messages.map((value, index) => { 
+                console.log("Mon ID " + this.state.my_id)
+                console.log("Mon id receveur "+value.recipientId)
+                console.log("Mon id envoyeur "+value.senderId )
+                console.log("Mon id user select " +this.state.current_user)
                  if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) { 
-                      return (console.log("wait"))
+                      return (
+                      <div class="message start end">
+                      <div className="bubble-container">
+                        <div className="bubble" title="Saturday, December 21, 2019 4:36 PM">
+                          <img src={value.text} alt="my_message" ></img>
+                        </div>
+                      </div>
+                       </div>)
+
                   }else{
                     return (
                       <div class="message mine start end">
