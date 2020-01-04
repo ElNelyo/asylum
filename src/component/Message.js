@@ -69,6 +69,12 @@ class Message extends React.Component {
     
     this.getUsers();
     this.setState({ isLoading:false});
+
+    this.intervalID = setInterval(
+      () => this.getMessages(this.state.current_user),
+      1000
+    );
+
   }
   componentWillUnmount = () => {
     return this.setState({ current_user: "none",isLoading:false }, function () {
@@ -115,6 +121,9 @@ class Message extends React.Component {
   
   }
   
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
+  }
 
 
   getMessages(id) {
@@ -145,9 +154,6 @@ class Message extends React.Component {
 
       
     
-
-   
-     
   }
   getUsers() {
     this.users =
