@@ -21,7 +21,7 @@ class Message extends React.Component {
     super(props);
 
     this.users = [];
-    this.state = { isLoading:true,messages: [], current_user: "none", my_id: "1", message: "", gifs: [], selectedGif: null};
+    this.state = { isLoading:true,messages: [], current_user: "none", my_id: "2", message: "", gifs: [], selectedGif: null};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
