@@ -13,6 +13,7 @@ import '../assets/Messenger.css';
 import '../assets/MessageList.css'; 
 import '../assets/Message.css'; 
 import '../assets/Compose.css';
+
 class Message extends React.Component {
 
 
@@ -64,9 +65,9 @@ class Message extends React.Component {
     
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {    
 
-    
+  
     this.getUsers();
     this.setState({ isLoading:false});
 
@@ -96,6 +97,30 @@ class Message extends React.Component {
       text: gif.images.downsized.url})
     .then(response => {
         console.log("trigger");
+
+
+        const algoliasearch = require('algoliasearch');
+        const client = algoliasearch('BD9W25X1F6', '');
+        const index = client.initIndex('asylum');
+  
+ 
+  
+        const objects = [{
+          senderId: my_current_id,
+          senderUsername: 'Charly',
+          recipientId:my_current_user,
+          text:gif.images.downsized.url,
+          datetime:new Date().toISOString().slice(0, 19).replace('T', ' '),
+          read:false
+        }];
+  
+      index.addObjects(objects, (err, content) => {
+        console.log(content);
+      });
+
+      
+
+      
         let new_message = [];
         new_message["senderId"] = my_current_id;
         new_message["senderUsername"] = "Charly";
@@ -128,8 +153,8 @@ class Message extends React.Component {
 
   getMessages(id) {
     //this.setState({ messages: JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]') });
-    console.log("EXEMPLE")    
-    console.log(JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]'));
+    //console.log("EXEMPLE")    
+   // console.log(JSON.parse('[{"sender_id":"12313133","sender_name":"Maxime","receiver_id":"20113551","receiver_name":"Charly","message":"https://media1.giphy.com/media/vFKqnCdLPNOKc/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true},{"sender_id":"01315886","sender_name":"Trinh","receiver_id":"20113551","receiver_name":"Charly","message":"https://media3.giphy.com/media/xBAreNGk5DapO/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"01315886","receiver_name":"Trinh","message":"https://media2.giphy.com/media/8vQSQ3cNXuDGo/giphy-downsized.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy-downsized.gif","datetime":"2019-09-09:09:53","read":false},{"sender_id":"20113551","sender_name":"Charly","receiver_id":"12313133","receiver_name":"Maxile","message":"https://media0.giphy.com/media/71PLYtZUiPRg4/giphy.gif?cid=ed7f48fc42831e360524111ed8c73cd1b375f0f945303dfd&rid=giphy.gif","datetime":"2019-09-09:09:53","read":true}]'));
     
    
      axios.get('http://awesome-dev.eu:8090/conversations?userId='+id,{})
@@ -248,10 +273,7 @@ class Message extends React.Component {
      
       var messages = <div>
               {this.state.messages.map((value, index) => { 
-                console.log("Mon ID " + this.state.my_id)
-                console.log("Mon id receveur "+value.recipientId)
-                console.log("Mon id envoyeur "+value.senderId )
-                console.log("Mon id user select " +this.state.current_user)
+                
                  if (parseInt(value.recipientId) === parseInt(this.state.my_id) && parseInt(value.senderId) === parseInt(this.state.current_user)) { 
                       return (
                       <div class="message start end">
