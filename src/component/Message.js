@@ -21,7 +21,7 @@ class Message extends React.Component {
     super(props);
 
     this.users = [];
-    this.state = { isLoading:true,messages: [], current_user: "none", my_id: "1", message: "", gifs: [], selectedGif: null};
+    this.state = { isLoading:true,messages: [], current_user: "none", my_id: "2", message: "", gifs: [], selectedGif: null};
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -100,14 +100,13 @@ class Message extends React.Component {
 
 
         const algoliasearch = require('algoliasearch');
-        const client = algoliasearch('BD9W25X1F6', '');
+        const client = algoliasearch('BD9W25X1F6', '2c5e9a0b092dab3b5a0d802167cfa881');
         const index = client.initIndex('asylum');
   
  
   
         const objects = [{
           senderId: my_current_id,
-          senderUsername: 'Charly',
           recipientId:my_current_user,
           text:gif.images.downsized.url,
           datetime:new Date().toISOString().slice(0, 19).replace('T', ' '),
